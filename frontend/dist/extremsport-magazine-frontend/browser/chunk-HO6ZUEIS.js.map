@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/features/author/author.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\n\nexport const AUTHOR_ROUTES: Routes = [\n  {\n    path: '',\n    loadComponent: () => import('./pages/author-dashboard/author-dashboard.component').then(m => m.AuthorDashboardComponent),\n    title: 'Author Dashboard'\n  },\n  {\n    path: 'new-article',\n    loadComponent: () => import('./pages/article-editor/article-editor.component').then(m => m.ArticleEditorComponent),\n    title: 'New Article'\n  },\n  {\n    path: 'edit/:id',\n    loadComponent: () => import('./pages/article-editor/article-editor.component').then(m => m.ArticleEditorComponent),\n    title: 'Edit Article'\n  }\n];\n\n"],
+  "mappings": ";;;AAEO,IAAM,gBAAwB;EACnC;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAqD,EAAE,KAAK,OAAK,EAAE,wBAAwB;IACvH,OAAO;;EAET;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAiD,EAAE,KAAK,OAAK,EAAE,sBAAsB;IACjH,OAAO;;EAET;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAiD,EAAE,KAAK,OAAK,EAAE,sBAAsB;IACjH,OAAO;;;",
+  "names": []
+}

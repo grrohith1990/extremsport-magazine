@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["angular:styles/component:css;8fc7385fe397bf1e450aa4ab73412e647ccb4d9e748607be6807683af18c27e1;/Users/gonibeer/dev/test/extremsport-magazine/frontend/src/app/features/articles/pages/article-detail/article-detail.component.ts"],
+  "sourcesContent": ["\n    .article-detail { max-width: 800px; margin: 0 auto; padding: 2rem; }\n    .cover { width: 100%; border-radius: 8px; margin: 1.5rem 0; }\n    .category { color: #e65100; font-weight: bold; text-transform: uppercase; }\n    .badge.premium { background: gold; padding: 2px 8px; border-radius: 4px; margin-left: 1rem; }\n    .meta { color: #666; margin: 1rem 0; }\n    .tag { background: #f0f0f0; padding: 4px 8px; border-radius: 4px; margin-right: 0.5rem; }\n  "],
+  "mappings": ";AACI,CAAC;AAAiB,aAAW;AAAO,UAAQ,EAAE;AAAM,WAAS;AAAM;AACnE,CAAC;AAAQ,SAAO;AAAM,iBAAe;AAAK,UAAQ,OAAO;AAAG;AAC5D,CAAC;AAAW,SAAO;AAAS,eAAa;AAAM,kBAAgB;AAAW;AAC1E,CAAC,KAAK,CAAC;AAAU,cAAY;AAAM,WAAS,IAAI;AAAK,iBAAe;AAAK,eAAa;AAAM;AAC5F,CAAC;AAAO,SAAO;AAAM,UAAQ,KAAK;AAAG;AACrC,CAAC;AAAM,cAAY;AAAS,WAAS,IAAI;AAAK,iBAAe;AAAK,gBAAc;AAAQ;",
+  "names": []
+}

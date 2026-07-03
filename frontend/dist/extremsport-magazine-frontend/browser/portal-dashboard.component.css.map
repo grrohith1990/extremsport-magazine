@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["angular:styles/component:css;698c913c313c0baeaae93f0022f032d6b456fda46bf3b9491f4e1fc8d39d8117;/Users/gonibeer/dev/test/extremsport-magazine/frontend/src/app/features/subscription/pages/portal-dashboard/portal-dashboard.component.ts"],
+  "sourcesContent": ["\n    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }\n    .card { padding: 1.5rem; border: 1px solid #ddd; border-radius: 8px; }\n  "],
+  "mappings": ";AACI,CAAC;AAAiB,WAAS;AAAM,yBAAuB,OAAO,SAAS,EAAE,OAAO,KAAK,EAAE;AAAO,OAAK;AAAQ,cAAY;AAAQ;AAChI,CAAC;AAAO,WAAS;AAAQ,UAAQ,IAAI,MAAM;AAAM,iBAAe;AAAK;",
+  "names": []
+}

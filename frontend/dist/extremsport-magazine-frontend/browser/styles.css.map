@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/styles.scss"],
+  "sourcesContent": ["* {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\n\nbody {\n  font-family: 'Inter', sans-serif;\n  line-height: 1.6;\n  color: #333;\n  background: #fafafa;\n}\n\na {\n  color: #e65100;\n  text-decoration: none;\n}\n\na:hover {\n  text-decoration: underline;\n}\n\nbutton {\n  font-family: inherit;\n  font-size: 1rem;\n  padding: 0.75rem 1.5rem;\n  border: none;\n  background: #e65100;\n  color: white;\n  border-radius: 6px;\n  cursor: pointer;\n}\n\nbutton:hover {\n  background: #bf360c;\n}\n\n"],
+  "mappings": ";AAAA;AACE,UAAA;AACA,WAAA;AACA,cAAA;;AAGF;AACE,eAAA,OAAA,EAAA;AACA,eAAA;AACA,SAAA;AACA,cAAA;;AAGF;AACE,SAAA;AACA,mBAAA;;AAGF,CAAA;AACE,mBAAA;;AAGF;AACE,eAAA;AACA,aAAA;AACA,WAAA,QAAA;AACA,UAAA;AACA,cAAA;AACA,SAAA;AACA,iBAAA;AACA,UAAA;;AAGF,MAAA;AACE,cAAA;;",
+  "names": []
+}

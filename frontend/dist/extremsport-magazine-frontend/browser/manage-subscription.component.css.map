@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["angular:styles/component:css;9c56ad155e2b52acb1f9d5ae48870506859cecde33bddd0b41da6a4b00dc6dde;/Users/gonibeer/dev/test/extremsport-magazine/frontend/src/app/features/subscription/pages/manage-subscription/manage-subscription.component.ts"],
+  "sourcesContent": ["\n    .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem; }\n    .plan-card { padding: 2rem; border: 1px solid #ddd; border-radius: 12px; text-align: center; }\n    .plan-card.featured { border-color: gold; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }\n    .price { font-size: 1.5rem; font-weight: bold; color: #e65100; }\n  "],
+  "mappings": ";AACI,CAAC;AAAQ,WAAS;AAAM,yBAAuB,OAAO,QAAQ,EAAE,OAAO,KAAK,EAAE;AAAO,OAAK;AAAM,cAAY;AAAM;AAClH,CAAC;AAAY,WAAS;AAAM,UAAQ,IAAI,MAAM;AAAM,iBAAe;AAAM,cAAY;AAAQ;AAC7F,CADC,SACS,CAAC;AAAW,gBAAc;AAAM,cAAY,EAAE,IAAI,KAAK,KAAK,CAAC,EAAC,CAAC,EAAC,CAAC,EAAC;AAAM;AAClF,CAAC;AAAQ,aAAW;AAAQ,eAAa;AAAM,SAAO;AAAS;",
+  "names": []
+}

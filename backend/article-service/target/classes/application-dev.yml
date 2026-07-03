@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: article-service
+
+  datasource:
+    url: jdbc:h2:mem:article_db
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/extremsport
+
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+      - org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration
+
+server:
+  port: 8081
+
+cms:
+  base-url: http://localhost:8090
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+logging:
+  level:
+    com.extremsport: DEBUG
+

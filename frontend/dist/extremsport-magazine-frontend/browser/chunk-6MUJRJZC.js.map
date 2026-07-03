@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/features/subscription/subscription.routes.ts"],
+  "sourcesContent": ["import { Routes } from '@angular/router';\n\nexport const SUBSCRIPTION_ROUTES: Routes = [\n  {\n    path: '',\n    loadComponent: () => import('./pages/portal-dashboard/portal-dashboard.component').then(m => m.PortalDashboardComponent),\n    title: 'Customer Portal'\n  },\n  {\n    path: 'manage',\n    loadComponent: () => import('./pages/manage-subscription/manage-subscription.component').then(m => m.ManageSubscriptionComponent),\n    title: 'Manage Subscription'\n  }\n];\n\n"],
+  "mappings": ";;;AAEO,IAAM,sBAA8B;EACzC;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAqD,EAAE,KAAK,OAAK,EAAE,wBAAwB;IACvH,OAAO;;EAET;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA2D,EAAE,KAAK,OAAK,EAAE,2BAA2B;IAChI,OAAO;;;",
+  "names": []
+}

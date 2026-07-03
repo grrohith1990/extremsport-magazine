@@ -1,0 +1,35 @@
+/* src/styles.scss */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Inter", sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: #fafafa;
+}
+a {
+  color: #e65100;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+button {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: #e65100;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+button:hover {
+  background: #bf360c;
+}
+
+/* angular:styles/global:styles */
+/*# sourceMappingURL=styles.css.map */

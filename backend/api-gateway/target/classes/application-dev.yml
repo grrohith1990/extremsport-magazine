@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: article-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/articles/**
+        - id: user-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/users/**,/api/v1/authors/**
+        - id: forum-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/v1/forum/**
+        - id: subscription-service
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/v1/subscriptions/**
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - http://localhost:4200
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration
+
+server:
+  port: 8000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+

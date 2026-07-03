@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: user-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5433/user_db
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8080/realms/extremsport}
+          jwk-set-uri: ${KEYCLOAK_JWK_URI:http://localhost:8080/realms/extremsport/protocol/openid-connect/certs}
+
+server:
+  port: 8082
+
+# Auth provider configuration (AD or Keycloak)
+auth:
+  server:
+    url: ${AUTH_SERVER_URL:http://localhost:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+
+logging:
+  level:
+    com.extremsport: DEBUG
+

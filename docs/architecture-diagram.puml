@@ -1,0 +1,110 @@
+@startuml Extremsport Magazine - High-Level Architecture
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam componentStyle rectangle
+
+title **Extremsport Online Magazine - System Architecture**\n(Internal System View with External Systems)
+
+' === ACTORS ===
+actor "Reader\n(Public)" as reader
+actor "Subscriber\n(Premium)" as subscriber
+actor "Author" as author
+actor "Moderator" as moderator
+actor "Admin" as admin
+
+' === FRONTEND ===
+package "**Angular Frontend** (Responsive SPA)" as frontend #E3F2FD {
+    component "Public Area\n(Articles, Search, Archive)" as publicArea
+    component "Customer Portal\n(Abo Management)" as portalArea
+    component "Author Area\n(Article Editor)" as authorArea
+    component "Forum\n(Discussions)" as forumArea
+}
+
+' === API GATEWAY ===
+component "**API Gateway**\n(Spring Cloud Gateway)\n\nRouting | Rate Limiting\nCircuit Breaker | CORS" as gateway #FFF3E0
+
+' === INTERNAL MICROSERVICES ===
+package "**Internal Microservices** (Spring Boot 3.x)" as services #E8F5E9 {
+    component "Article Service\n\n• Public Articles\n• Premium Articles\n• Archive\n• Search" as articleSvc
+    component "User & Author\nService\n\n• Profiles\n• Author Mgmt\n• Roles" as userSvc
+    component "Forum Service\n\n• Threads\n• Posts\n• Moderation" as forumSvc
+    component "Subscription &\nPayment Service\n\n• Abo Mgmt\n• Single Purchase\n• Billing" as subSvc
+}
+
+' === MESSAGING ===
+queue "**RabbitMQ**\n(Event Bus)" as mq #FFF9C4
+
+' === PERSISTENCE ===
+database "PostgreSQL\n(Articles)" as dbArticles
+database "PostgreSQL\n(Users)" as dbUsers
+database "PostgreSQL\n(Forum)" as dbForum
+database "PostgreSQL\n(Payments)" as dbPayments
+database "Elasticsearch\n(Search & Archive)" as elastic
+
+' === EXTERNAL SYSTEMS ===
+package "**External Systems** (Umsysteme)" as external #FFEBEE {
+    component "CMS System\n(IBM FileNet →\nCloud CMS)" as cms <<replaceable>>
+    component "Merchandise Shop\n(Drittanbieter)" as shop
+    component "Buchhaltungs- &\nRechnungssystem\n(Win 2000 Server)" as billing
+    component "Auth Server\n(AD → Keycloak)" as auth <<replaceable>>
+}
+
+' === CONNECTIONS: Actors → Frontend ===
+reader --> publicArea
+reader --> forumArea
+subscriber --> portalArea
+subscriber --> publicArea
+author --> authorArea
+moderator --> forumArea
+admin --> portalArea
+
+' === CONNECTIONS: Frontend → Gateway ===
+frontend --> gateway : "HTTPS / JWT"
+
+' === CONNECTIONS: Gateway → Services ===
+gateway --> articleSvc
+gateway --> userSvc
+gateway --> forumSvc
+gateway --> subSvc
+
+' === CONNECTIONS: Services → Persistence ===
+articleSvc --> dbArticles
+articleSvc --> elastic
+userSvc --> dbUsers
+forumSvc --> dbForum
+subSvc --> dbPayments
+
+' === CONNECTIONS: Services → Message Broker ===
+articleSvc --> mq : "Events"
+subSvc --> mq : "Events"
+forumSvc <-- mq : "Consume"
+userSvc <-- mq : "Consume"
+
+' === CONNECTIONS: Services → External ===
+articleSvc ..> cms : "REST API\n(Adapter Pattern)"
+subSvc ..> billing : "REST Adapter\n(Anti-Corruption Layer)"
+subSvc ..> shop : "REST API"
+gateway ..> auth : "OAuth2 / OIDC\nToken Validation"
+userSvc ..> auth : "User Sync"
+
+' === NOTES ===
+note right of cms
+  **Austauschbar!**
+  Port & Adapter Pattern
+  ermöglicht Wechsel ohne
+  Änderung der Kernlogik
+end note
+
+note right of auth
+  **Austauschbar!**
+  Von AD zu Keycloak
+  über Konfiguration
+end note
+
+note bottom of gateway
+  Zentraler Einstiegspunkt
+  für alle Client-Anfragen
+end note
+
+@enduml
+

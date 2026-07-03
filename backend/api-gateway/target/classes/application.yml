@@ -1,0 +1,103 @@
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+        # Article Service
+        - id: article-service
+          uri: ${ARTICLE_SERVICE_URL:http://localhost:8081}
+          predicates:
+            - Path=/api/v1/articles/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: articleService
+                fallbackUri: forward:/fallback/articles
+
+        # User Service
+        - id: user-service
+          uri: ${USER_SERVICE_URL:http://localhost:8082}
+          predicates:
+            - Path=/api/v1/users/**,/api/v1/authors/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: userService
+                fallbackUri: forward:/fallback/users
+
+        # Forum Service
+        - id: forum-service
+          uri: ${FORUM_SERVICE_URL:http://localhost:8083}
+          predicates:
+            - Path=/api/v1/forum/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: forumService
+                fallbackUri: forward:/fallback/forum
+
+        # Subscription & Payment Service
+        - id: subscription-service
+          uri: ${SUBSCRIPTION_SERVICE_URL:http://localhost:8084}
+          predicates:
+            - Path=/api/v1/subscriptions/**,/api/v1/payments/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: subscriptionService
+                fallbackUri: forward:/fallback/subscriptions
+
+      # CORS Configuration for Angular Frontend
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - ${FRONTEND_URL:http://localhost:4200}
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+
+  # Security
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8080/realms/extremsport}
+
+server:
+  port: 8000
+
+# Resilience4j Circuit Breaker
+resilience4j:
+  circuitbreaker:
+    instances:
+      articleService:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000
+      userService:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000
+      forumService:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000
+      subscriptionService:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,gateway
+
