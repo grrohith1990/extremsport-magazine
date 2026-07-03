@@ -14,3 +14,4 @@ frontend/dist/
 Thumbs.db
 # Env
 *.env.local
+frontend/.angular/
