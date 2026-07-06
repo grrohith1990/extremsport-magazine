@@ -15,7 +15,6 @@ import { RouterOutlet, RouterModule } from '@angular/router';
           <a routerLink="/premium">Premium</a>
           <a routerLink="/archive">Archiv</a>
           <a routerLink="/forum">Forum</a>
-          <a routerLink="/search">Suche</a>
           <a routerLink="/portal" class="btn-portal">Mein Konto</a>
         </div>
       </nav>

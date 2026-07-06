@@ -1,5 +1,22 @@
 <section class="article-list">
   <h1>Extremsport Magazine</h1>
+  <div class="search-bar">
+    <input
+      type="text"
+      [(ngModel)]="searchQuery"
+      placeholder="Artikel durchsuchen..."
+      (keyup.enter)="search()"
+      (input)="onSearchInput()" />
+    @if (searchQuery) {
+      <button class="clear-btn" (click)="clearSearch()">✕</button>
+    }
+    <button (click)="search()">Suchen</button>
+  </div>
+
+  @if (isSearching && articles.length === 0) {
+    <p class="no-results">Keine Artikel gefunden für "{{ searchQuery }}".</p>
+  }
+
   <div class="articles-grid">
     @for (article of articles; track article.id) {
       <article class="article-card">
@@ -19,6 +36,6 @@
     }
   </div>
   @if (hasMore && articles.length > 0) {
-    <button (click)="loadMore()">Mehr laden</button>
+    <button class="load-more" (click)="loadMore()">Mehr laden</button>
   }
 </section>

@@ -12,11 +12,6 @@ export const ARTICLE_ROUTES: Routes = [
     title: 'Article'
   },
   {
-    path: 'search',
-    loadComponent: () => import('./pages/article-search/article-search.component').then(m => m.ArticleSearchComponent),
-    title: 'Search'
-  },
-  {
     path: 'archive',
     loadComponent: () => import('./pages/article-archive/article-archive.component').then(m => m.ArticleArchiveComponent),
     title: 'Archive'
