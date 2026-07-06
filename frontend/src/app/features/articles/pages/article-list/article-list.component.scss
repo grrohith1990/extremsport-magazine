@@ -1,3 +1,14 @@
+.article-list {
+  h1 a {
+    color: #1a1a2e;
+    text-decoration: none;
+
+    &:hover {
+      color: #e65100;
+    }
+  }
+}
+
 .search-bar {
   display: flex;
   gap: 0.5rem;
