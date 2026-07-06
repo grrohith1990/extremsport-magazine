@@ -1,18 +1,29 @@
 <section class="premium">
   <h1>Premium Inhalte</h1>
   <p class="intro">Exklusive Artikel für Abonnenten</p>
-  <div class="articles-grid">
-    @for (article of articles; track article.id) {
-      <article class="article-card premium-card">
-        @if (article.coverImageUrl) {
-          <img [src]="article.coverImageUrl" [alt]="article.title" />
-        }
-        <div class="article-card-content">
-          <span class="badge">Premium</span>
-          <h2><a [routerLink]="['/article', article.id]">{{ article.title }}</a></h2>
-          <p>{{ article.summary }}</p>
-        </div>
-      </article>
-    }
-  </div>
+
+  @if (error) {
+    <div class="auth-notice">
+      <h3>🔒 Premium-Zugang erforderlich</h3>
+      <p>Bitte melde dich an oder schliesse ein Abo ab, um auf Premium-Inhalte zuzugreifen.</p>
+      <a routerLink="/portal" class="btn-subscribe">Abo abschliessen</a>
+    </div>
+  }
+
+  @if (articles.length > 0) {
+    <div class="articles-grid">
+      @for (article of articles; track article.id) {
+        <article class="article-card premium-card">
+          @if (article.coverImageUrl) {
+            <img [src]="article.coverImageUrl" [alt]="article.title" />
+          }
+          <div class="article-card-content">
+            <span class="badge">Premium</span>
+            <h2><a [routerLink]="['/article', article.id]">{{ article.title }}</a></h2>
+            <p>{{ article.summary }}</p>
+          </div>
+        </article>
+      }
+    </div>
+  }
 </section>

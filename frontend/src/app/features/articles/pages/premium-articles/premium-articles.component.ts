@@ -12,12 +12,18 @@ import { Article } from '../../../../core/models/models';
 })
 export class PremiumArticlesComponent implements OnInit {
   articles: Article[] = [];
+  error = false;
 
   constructor(private articleService: ArticleService) {}
 
   ngOnInit(): void {
-    this.articleService.getPremiumArticles().subscribe(articles => {
-      this.articles = articles;
+    this.articleService.getPremiumArticles().subscribe({
+      next: (articles) => {
+        this.articles = articles;
+      },
+      error: () => {
+        this.error = true;
+      }
     });
   }
 }
