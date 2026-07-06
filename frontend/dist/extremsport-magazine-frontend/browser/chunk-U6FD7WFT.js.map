@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/shared/components/unauthorized.component.ts"],
-  "sourcesContent": ["import { Component } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\n@Component({\n  selector: 'app-unauthorized',\n  standalone: true,\n  imports: [CommonModule],\n  template: `\n    <div class=\"unauthorized-container\">\n      <h1>403 - Zugriff verweigert</h1>\n      <p>Sie haben keine Berechtigung, auf diese Seite zuzugreifen.</p>\n      <a routerLink=\"/\">Zurück zur Startseite</a>\n    </div>\n  `\n})\nexport class UnauthorizedComponent {}\n\n"],
-  "mappings": ";;;;;;;;;;;;AAeM,IAAO,wBAAP,MAAO,uBAAqB;;;uCAArB,wBAAqB;IAAA;EAAA;;yEAArB,wBAAqB,WAAA,CAAA,CAAA,kBAAA,CAAA,GAAA,YAAA,MAAA,UAAA,CAAA,6BAAA,GAAA,OAAA,GAAA,MAAA,GAAA,QAAA,CAAA,CAAA,GAAA,wBAAA,GAAA,CAAA,cAAA,GAAA,CAAA,GAAA,UAAA,SAAA,+BAAA,IAAA,KAAA;AAAA,UAAA,KAAA,GAAA;AAP9B,QAAA,yBAAA,GAAA,OAAA,CAAA,EAAoC,GAAA,IAAA;AAC9B,QAAA,iBAAA,GAAA,0BAAA;AAAwB,QAAA,uBAAA;AAC5B,QAAA,yBAAA,GAAA,GAAA;AAAG,QAAA,iBAAA,GAAA,4DAAA;AAA0D,QAAA,uBAAA;AAC7D,QAAA,yBAAA,GAAA,KAAA,CAAA;AAAkB,QAAA,iBAAA,GAAA,0BAAA;AAAqB,QAAA,uBAAA,EAAI;;sBALrC,YAAY,GAAA,eAAA,EAAA,CAAA;EAAA;;;6EASX,uBAAqB,EAAA,WAAA,wBAAA,CAAA;AAAA,GAAA;",
-  "names": []
-}

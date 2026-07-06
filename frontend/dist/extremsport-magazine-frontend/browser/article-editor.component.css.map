@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["angular:styles/component:css;91481f5fe36e9291092697d31cb640d5337903ad78ba7b2be1fcc8d414080893;/Users/gonibeer/dev/test/extremsport-magazine/frontend/src/app/features/author/pages/article-editor/article-editor.component.ts"],
-  "sourcesContent": ["\n    .article-editor { max-width: 900px; margin: 0 auto; padding: 2rem; }\n    .form-group { margin-bottom: 1.5rem; }\n    .form-group label { display: block; font-weight: bold; margin-bottom: 0.5rem; }\n    .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; }\n    .actions { display: flex; gap: 1rem; }\n    .actions button { padding: 0.75rem 1.5rem; border-radius: 6px; cursor: pointer; }\n  "],
-  "mappings": ";AACI,CAAC;AAAiB,aAAW;AAAO,UAAQ,EAAE;AAAM,WAAS;AAAM;AACnE,CAAC;AAAa,iBAAe;AAAQ;AACrC,CADC,WACW;AAAQ,WAAS;AAAO,eAAa;AAAM,iBAAe;AAAQ;AAC9E,CAFC,WAEW;AAAO,CAFlB,WAE8B;AAAU,CAFxC,WAEoD;AAAS,SAAO;AAAM,WAAS;AAAS,UAAQ,IAAI,MAAM;AAAM,iBAAe;AAAK,aAAW;AAAM;AAC1J,CAAC;AAAU,WAAS;AAAM,OAAK;AAAM;AACrC,CADC,QACQ;AAAS,WAAS,QAAQ;AAAQ,iBAAe;AAAK,UAAQ;AAAS;",
-  "names": []
-}
