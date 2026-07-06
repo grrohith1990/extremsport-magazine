@@ -17,7 +17,7 @@ export class ArticleService {
 
   // === Public Access ===
 
-  getPublicArticles(page = 0, size = 20): Observable<Article[]> {
+  getPublicArticles(page = 0, size = 6): Observable<Article[]> {
     const params = new HttpParams().set('page', page).set('size', size);
     return this.http.get<Article[]>(`${this.baseUrl}/public`, { params });
   }

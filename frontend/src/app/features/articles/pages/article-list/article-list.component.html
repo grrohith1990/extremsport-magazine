@@ -1,0 +1,19 @@
+<section class="article-list">
+  <h1>Extremsport Magazine</h1>
+  <div class="articles-grid">
+    <article *ngFor="let article of articles" class="article-card">
+      <img *ngIf="article.coverImageUrl" [src]="article.coverImageUrl" [alt]="article.title" (error)="onImageError($event)" />
+      <div class="article-card-content">
+        <span class="category">{{ article.category }}</span>
+        <h2><a [routerLink]="['/article', article.id]">{{ article.title }}</a></h2>
+        <p>{{ article.summary }}</p>
+        <div class="meta">
+          <span>{{ article.authorName }}</span>
+          <time>{{ article.publishedAt | date:'dd.MM.yyyy' }}</time>
+        </div>
+      </div>
+    </article>
+  </div>
+  <button (click)="loadMore()" *ngIf="hasMore && articles.length > 0">Mehr laden</button>
+</section>
+

@@ -1,0 +1,44 @@
+<section class="search-page">
+  <h1>Alle Artikel</h1>
+  <div class="search-bar">
+    <input type="text" [(ngModel)]="query" placeholder="Artikel durchsuchen..." (keyup.enter)="search()" (input)="onInputChange()" />
+    <button (click)="search()">Suchen</button>
+  </div>
+
+  <div class="article-count" *ngIf="displayedArticles.length > 0">
+    <span>{{ displayedArticles.length }} Artikel gefunden</span>
+  </div>
+
+  <div class="results" *ngIf="displayedArticles.length > 0">
+    <article *ngFor="let article of displayedArticles" class="result-item">
+      <div class="result-image" *ngIf="article.coverImageUrl">
+        <img [src]="article.coverImageUrl" [alt]="article.title" (error)="onImageError($event)" />
+      </div>
+      <div class="result-content">
+        <div class="result-meta">
+          <span class="category">{{ article.category }}</span>
+          <span class="access-badge" [class.premium]="article.accessType !== 'PUBLIC'">
+            {{ article.accessType === 'PUBLIC' ? 'Kostenlos' : 'Premium' }}
+          </span>
+        </div>
+        <h3><a [routerLink]="['/article', article.id]">{{ article.title }}</a></h3>
+        <p class="subtitle" *ngIf="article.subtitle">{{ article.subtitle }}</p>
+        <p class="summary">{{ article.summary }}</p>
+        <div class="result-footer">
+          <span class="author" *ngIf="article.authorName">Von {{ article.authorName }}</span>
+          <time *ngIf="article.createdAt">{{ article.createdAt | date:'dd.MM.yyyy' }}</time>
+          <div class="tags">
+            <span *ngFor="let tag of article.tags" class="tag">#{{ tag }}</span>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <p class="no-results" *ngIf="searched && displayedArticles.length === 0">
+    Keine Artikel gefunden für "{{ query }}".
+  </p>
+
+  <button *ngIf="hasMore" (click)="loadMore()" class="load-more">Mehr Artikel laden</button>
+</section>
+

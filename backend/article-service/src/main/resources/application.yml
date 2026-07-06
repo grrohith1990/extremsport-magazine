@@ -56,3 +56,13 @@ logging:
     com.extremsport: DEBUG
     org.springframework.security: INFO
 
+# SpringDoc OpenAPI / Swagger
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+
+

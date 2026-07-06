@@ -101,3 +101,21 @@ management:
       exposure:
         include: health,info,metrics,gateway
 
+# SpringDoc OpenAPI - Aggregated API docs from all services
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: Article Service
+        url: /v3/api-docs/articles
+      - name: User & Author Service
+        url: /v3/api-docs/users
+      - name: Forum Service
+        url: /v3/api-docs/forums
+      - name: Subscription Service
+        url: /v3/api-docs/subscriptions
+    urls-primary-name: Article Service
+
+

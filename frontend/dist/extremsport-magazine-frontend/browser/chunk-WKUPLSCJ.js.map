@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/features/forum/forum.routes.ts"],
-  "sourcesContent": ["import { Routes } from '@angular/router';\nimport { AuthGuard } from '../../core/guards/auth.guard';\n\nexport const FORUM_ROUTES: Routes = [\n  {\n    path: '',\n    loadComponent: () => import('./pages/forum-overview/forum-overview.component').then(m => m.ForumOverviewComponent),\n    title: 'Forum'\n  },\n  {\n    path: 'thread/:id',\n    loadComponent: () => import('./pages/thread-detail/thread-detail.component').then(m => m.ThreadDetailComponent),\n    title: 'Thread'\n  },\n  {\n    path: 'new-thread',\n    canActivate: [AuthGuard],\n    data: { roles: ['READER', 'SUBSCRIBER', 'ADMIN'] },\n    loadComponent: () => import('./pages/new-thread/new-thread.component').then(m => m.NewThreadComponent),\n    title: 'New Thread'\n  }\n];\n\n"],
-  "mappings": ";;;;;;;;AAGO,IAAM,eAAuB;EAClC;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAiD,EAAE,KAAK,OAAK,EAAE,sBAAsB;IACjH,OAAO;;EAET;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA+C,EAAE,KAAK,OAAK,EAAE,qBAAqB;IAC9G,OAAO;;EAET;IACE,MAAM;IACN,aAAa,CAAC,SAAS;IACvB,MAAM,EAAE,OAAO,CAAC,UAAU,cAAc,OAAO,EAAC;IAChD,eAAe,MAAM,OAAO,qBAAyC,EAAE,KAAK,OAAK,EAAE,kBAAkB;IACrG,OAAO;;;",
-  "names": []
-}

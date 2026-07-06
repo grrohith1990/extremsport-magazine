@@ -1,0 +1,37 @@
+.article-detail {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.cover {
+  width: 100%;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+}
+
+.category {
+  color: #e65100;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.badge.premium {
+  background: gold;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 1rem;
+}
+
+.meta {
+  color: #666;
+  margin: 1rem 0;
+}
+
+.tag {
+  background: #f0f0f0;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+

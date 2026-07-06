@@ -1,0 +1,56 @@
+.manage-subscription {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.plans {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.plan-card {
+  padding: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  text-align: center;
+
+  &.featured {
+    border-color: gold;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+
+    li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #f5f5f5;
+    }
+  }
+
+  button {
+    padding: 0.75rem 2rem;
+    background: #e65100;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+
+    &:hover {
+      background: darken(#e65100, 10%);
+    }
+  }
+}
+
+.price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #e65100;
+}
+

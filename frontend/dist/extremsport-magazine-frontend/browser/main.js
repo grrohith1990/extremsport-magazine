@@ -1,6 +1,10 @@
 import {
-  AuthGuard
-} from "./chunk-B24JZZKN.js";
+  AuthGuard,
+  KeycloakService
+} from "./chunk-ZDQQEOXI.js";
+import {
+  environment
+} from "./chunk-VT4MLJT7.js";
 import {
   BrowserModule,
   DomRendererFactory2,
@@ -14,6 +18,7 @@ import {
 } from "./chunk-3WQAWOKT.js";
 import {
   ANIMATION_MODULE_TYPE,
+  APP_INITIALIZER,
   CommonModule,
   DOCUMENT,
   Inject,
@@ -4584,12 +4589,12 @@ var routes = [
   // === PUBLIC AREA (no auth required) ===
   {
     path: "",
-    loadChildren: () => import("./chunk-JSPC7IRS.js").then((m) => m.ARTICLE_ROUTES)
+    loadChildren: () => import("./chunk-3YVTPQRY.js").then((m) => m.ARTICLE_ROUTES)
   },
   // === FORUM (partially protected) ===
   {
     path: "forum",
-    loadChildren: () => import("./chunk-WKUPLSCJ.js").then((m) => m.FORUM_ROUTES)
+    loadChildren: () => import("./chunk-ANLQ6CJZ.js").then((m) => m.FORUM_ROUTES)
   },
   // === CUSTOMER PORTAL (auth required - SUBSCRIBER role) ===
   {
@@ -4603,7 +4608,7 @@ var routes = [
     path: "author",
     canActivate: [AuthGuard],
     data: { roles: ["AUTHOR", "EDITOR", "ADMIN"] },
-    loadChildren: () => import("./chunk-HO6ZUEIS.js").then((m) => m.AUTHOR_ROUTES)
+    loadChildren: () => import("./chunk-S3Z4P7P7.js").then((m) => m.AUTHOR_ROUTES)
   },
   // === FALLBACK ===
   {
@@ -4617,11 +4622,38 @@ var routes = [
 ];
 
 // src/main.ts
+function initializeKeycloak(keycloak) {
+  return () => keycloak.init({
+    config: {
+      url: environment.keycloak.url,
+      realm: environment.keycloak.realm,
+      clientId: environment.keycloak.clientId
+    },
+    initOptions: {
+      onLoad: "check-sso",
+      checkLoginIframe: false,
+      enableLogging: !environment.production
+    },
+    enableBearerInterceptor: true,
+    bearerPrefix: "Bearer"
+  }).catch((err) => {
+    console.warn("Keycloak init failed (server may not be running):", err);
+    return false;
+  });
+}
+var keycloakProvider = {
+  provide: APP_INITIALIZER,
+  useFactory: initializeKeycloak,
+  multi: true,
+  deps: [KeycloakService]
+};
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
-    provideAnimations()
+    provideAnimations(),
+    KeycloakService,
+    keycloakProvider
   ]
 }).catch((err) => console.error(err));
 /*! Bundled license information:

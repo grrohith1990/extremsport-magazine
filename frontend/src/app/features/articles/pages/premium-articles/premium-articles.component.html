@@ -1,0 +1,15 @@
+<section class="premium">
+  <h1>Premium Inhalte</h1>
+  <p class="intro">Exklusive Artikel für Abonnenten</p>
+  <div class="articles-grid">
+    <article *ngFor="let article of articles" class="article-card premium-card">
+      <img *ngIf="article.coverImageUrl" [src]="article.coverImageUrl" [alt]="article.title" />
+      <div class="article-card-content">
+        <span class="badge">Premium</span>
+        <h2><a [routerLink]="['/article', article.id]">{{ article.title }}</a></h2>
+        <p>{{ article.summary }}</p>
+      </div>
+    </article>
+  </div>
+</section>
+

@@ -2,6 +2,11 @@ package com.extremsport.user.adapter.in.web;
 
 import com.extremsport.user.domain.model.AuthorProfile;
 import com.extremsport.user.domain.port.in.AuthorUseCase;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +20,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/authors")
 @RequiredArgsConstructor
+@Tag(name = "Authors", description = "Author profile management")
 public class AuthorController {
 
     private final AuthorUseCase authorUseCase;
@@ -22,6 +28,12 @@ public class AuthorController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN') or hasRole('EDITOR')")
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Create author profile", description = "Create a new author profile (requires ADMIN or EDITOR role)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Author profile created"),
+            @ApiResponse(responseCode = "400", description = "Invalid request"),
+            @ApiResponse(responseCode = "403", description = "Insufficient permissions")
+    })
     public AuthorProfile createAuthorProfile(@Valid @RequestBody CreateAuthorRequest request) {
         return authorUseCase.createAuthorProfile(new AuthorUseCase.CreateAuthorProfileCommand(
                 request.userId(),
@@ -34,34 +46,52 @@ public class AuthorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AuthorProfile> getAuthorProfile(@PathVariable UUID id) {
+    @Operation(summary = "Get author profile", description = "Retrieve an author profile by ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Author found"),
+            @ApiResponse(responseCode = "404", description = "Author not found")
+    })
+    public ResponseEntity<AuthorProfile> getAuthorProfile(@Parameter(description = "Author UUID") @PathVariable UUID id) {
         return authorUseCase.getAuthorProfileById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<AuthorProfile> getAuthorByUserId(@PathVariable UUID userId) {
+    @Operation(summary = "Get author by user ID", description = "Retrieve author profile by associated user ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Author found"),
+            @ApiResponse(responseCode = "404", description = "Author not found")
+    })
+    public ResponseEntity<AuthorProfile> getAuthorByUserId(@Parameter(description = "User UUID") @PathVariable UUID userId) {
         return authorUseCase.getAuthorProfileByUserId(userId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
+    @Operation(summary = "Get all authors", description = "Retrieve paginated list of all authors")
     public List<AuthorProfile> getAllAuthors(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
+            @Parameter(description = "Page number") @RequestParam(defaultValue = "0") int page,
+            @Parameter(description = "Page size") @RequestParam(defaultValue = "20") int size) {
         return authorUseCase.getAllAuthors(page, size);
     }
 
     @GetMapping("/verified")
+    @Operation(summary = "Get verified authors", description = "Retrieve all verified author profiles")
     public List<AuthorProfile> getVerifiedAuthors() {
         return authorUseCase.getVerifiedAuthors();
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('AUTHOR') or hasRole('ADMIN')")
-    public AuthorProfile updateAuthorProfile(@PathVariable UUID id, @Valid @RequestBody UpdateAuthorRequest request) {
+    @Operation(summary = "Update author profile", description = "Update an author profile (requires AUTHOR or ADMIN role)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Author profile updated"),
+            @ApiResponse(responseCode = "403", description = "Insufficient permissions"),
+            @ApiResponse(responseCode = "404", description = "Author not found")
+    })
+    public AuthorProfile updateAuthorProfile(@Parameter(description = "Author UUID") @PathVariable UUID id, @Valid @RequestBody UpdateAuthorRequest request) {
         return authorUseCase.updateAuthorProfile(id, new AuthorUseCase.UpdateAuthorProfileCommand(
                 request.penName(),
                 request.biography(),
@@ -74,7 +104,12 @@ public class AuthorController {
 
     @PostMapping("/{id}/verify")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> verifyAuthor(@PathVariable UUID id) {
+    @Operation(summary = "Verify author", description = "Verify an author profile (requires ADMIN role)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Author verified"),
+            @ApiResponse(responseCode = "404", description = "Author not found")
+    })
+    public ResponseEntity<Void> verifyAuthor(@Parameter(description = "Author UUID") @PathVariable UUID id) {
         authorUseCase.verifyAuthor(id);
         return ResponseEntity.ok().build();
     }
@@ -99,4 +134,3 @@ public class AuthorController {
             String socialMediaLinks
     ) {}
 }
-

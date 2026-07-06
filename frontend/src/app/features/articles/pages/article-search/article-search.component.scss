@@ -1,0 +1,172 @@
+.search-page {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.search-bar {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+
+  input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+
+    &:focus {
+      border-color: #e65100;
+      outline: none;
+    }
+  }
+
+  button {
+    padding: 0.75rem 1.5rem;
+  }
+}
+
+.article-count {
+  color: #666;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.result-item {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.result-image {
+  flex-shrink: 0;
+  width: 200px;
+  height: 140px;
+  border-radius: 8px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.result-content {
+  flex: 1;
+
+  h3 {
+    margin: 0.25rem 0;
+
+    a {
+      color: #1a1a2e;
+      text-decoration: none;
+
+      &:hover {
+        color: #e65100;
+      }
+    }
+  }
+}
+
+.result-meta {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.category {
+  color: #e65100;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+.access-badge {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-weight: 600;
+
+  &.premium {
+    background: #fff8e1;
+    color: #f57f17;
+  }
+}
+
+.subtitle {
+  color: #555;
+  font-style: italic;
+  margin: 0.25rem 0;
+}
+
+.summary {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.result-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 0.75rem;
+  color: #888;
+  font-size: 0.8rem;
+}
+
+.tags {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.no-results {
+  text-align: center;
+  color: #999;
+  padding: 2rem;
+}
+
+.load-more {
+  display: block;
+  margin: 2rem auto;
+  padding: 0.75rem 2rem;
+}
+
+@media (max-width: 600px) {
+  .result-item {
+    flex-direction: column;
+  }
+
+  .result-image {
+    width: 100%;
+    height: 180px;
+  }
+}
+

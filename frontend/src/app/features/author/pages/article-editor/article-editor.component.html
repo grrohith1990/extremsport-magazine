@@ -1,0 +1,49 @@
+<section class="article-editor">
+  <h1>{{ isEdit ? 'Artikel bearbeiten' : 'Neuer Artikel' }}</h1>
+  <form (ngSubmit)="save()">
+    <div class="form-group">
+      <label for="title">Titel *</label>
+      <input id="title" type="text" [(ngModel)]="article.title" name="title" required />
+    </div>
+    <div class="form-group">
+      <label for="subtitle">Untertitel</label>
+      <input id="subtitle" type="text" [(ngModel)]="article.subtitle" name="subtitle" />
+    </div>
+    <div class="form-group">
+      <label for="category">Kategorie</label>
+      <select id="category" [(ngModel)]="article.category" name="category">
+        <option value="climbing">Klettern</option>
+        <option value="surfing">Surfen</option>
+        <option value="skydiving">Fallschirmspringen</option>
+        <option value="mountainbiking">Mountainbiking</option>
+        <option value="snowboarding">Snowboarding</option>
+        <option value="other">Sonstiges</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="accessType">Zugangsart</label>
+      <select id="accessType" [(ngModel)]="article.accessType" name="accessType">
+        <option [value]="AccessType.PUBLIC">Öffentlich (kostenlos)</option>
+        <option [value]="AccessType.PREMIUM">Premium (Einzelkauf oder Abo)</option>
+        <option [value]="AccessType.EXCLUSIVE">Exklusiv (nur Abo)</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="summary">Zusammenfassung</label>
+      <textarea id="summary" [(ngModel)]="article.summary" name="summary" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="content">Inhalt *</label>
+      <textarea id="content" [(ngModel)]="article.content" name="content" rows="20" required></textarea>
+    </div>
+    <div class="form-group">
+      <label for="tags">Tags (kommagetrennt)</label>
+      <input id="tags" type="text" [(ngModel)]="tagsInput" name="tags" />
+    </div>
+    <div class="actions">
+      <button type="submit">{{ isEdit ? 'Speichern' : 'Erstellen' }}</button>
+      <button type="button" *ngIf="isEdit" (click)="publish()">Veröffentlichen</button>
+    </div>
+  </form>
+</section>
+

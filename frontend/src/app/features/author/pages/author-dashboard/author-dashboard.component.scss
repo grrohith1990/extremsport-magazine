@@ -1,0 +1,56 @@
+.author-dashboard {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.btn-new {
+  display: inline-block;
+  margin-bottom: 2rem;
+  padding: 0.75rem 1.5rem;
+  background: #e65100;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+
+  &:hover {
+    background: darken(#e65100, 10%);
+  }
+}
+
+.articles-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+
+  th,
+  td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+  }
+
+  th {
+    font-weight: 600;
+    background: #f9f9f9;
+  }
+}
+
+.status {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+
+  &.draft {
+    background: #fff3e0;
+  }
+
+  &.published {
+    background: #e8f5e9;
+  }
+
+  &.archived {
+    background: #eceff1;
+  }
+}
+

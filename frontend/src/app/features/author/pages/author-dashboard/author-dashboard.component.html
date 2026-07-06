@@ -1,0 +1,26 @@
+<section class="author-dashboard">
+  <h1>Autorenbereich</h1>
+  <a routerLink="new-article" class="btn-new">Neuen Artikel erstellen</a>
+  <h2>Meine Artikel</h2>
+  <table class="articles-table">
+    <thead>
+      <tr>
+        <th>Titel</th>
+        <th>Status</th>
+        <th>Zugang</th>
+        <th>Erstellt</th>
+        <th>Aktionen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let article of myArticles">
+        <td>{{ article.title }}</td>
+        <td><span class="status" [class]="article.status.toLowerCase()">{{ article.status }}</span></td>
+        <td>{{ article.accessType }}</td>
+        <td>{{ article.createdAt | date:'dd.MM.yyyy' }}</td>
+        <td><a [routerLink]="['edit', article.id]">Bearbeiten</a></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+

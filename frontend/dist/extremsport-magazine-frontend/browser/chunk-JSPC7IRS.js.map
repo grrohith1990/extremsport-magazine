@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/features/articles/articles.routes.ts"],
-  "sourcesContent": ["import { Routes } from '@angular/router';\n\nexport const ARTICLE_ROUTES: Routes = [\n  {\n    path: '',\n    loadComponent: () => import('./pages/article-list/article-list.component').then(m => m.ArticleListComponent),\n    title: 'Extremsport Magazine - Home'\n  },\n  {\n    path: 'article/:id',\n    loadComponent: () => import('./pages/article-detail/article-detail.component').then(m => m.ArticleDetailComponent),\n    title: 'Article'\n  },\n  {\n    path: 'search',\n    loadComponent: () => import('./pages/article-search/article-search.component').then(m => m.ArticleSearchComponent),\n    title: 'Search'\n  },\n  {\n    path: 'archive',\n    loadComponent: () => import('./pages/article-archive/article-archive.component').then(m => m.ArticleArchiveComponent),\n    title: 'Archive'\n  },\n  {\n    path: 'premium',\n    loadComponent: () => import('./pages/premium-articles/premium-articles.component').then(m => m.PremiumArticlesComponent),\n    title: 'Premium Content'\n  }\n];\n\n"],
-  "mappings": ";;;AAEO,IAAM,iBAAyB;EACpC;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAA6C,EAAE,KAAK,OAAK,EAAE,oBAAoB;IAC3G,OAAO;;EAET;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAiD,EAAE,KAAK,OAAK,EAAE,sBAAsB;IACjH,OAAO;;EAET;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAiD,EAAE,KAAK,OAAK,EAAE,sBAAsB;IACjH,OAAO;;EAET;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAmD,EAAE,KAAK,OAAK,EAAE,uBAAuB;IACpH,OAAO;;EAET;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAqD,EAAE,KAAK,OAAK,EAAE,wBAAwB;IACvH,OAAO;;;",
-  "names": []
-}
