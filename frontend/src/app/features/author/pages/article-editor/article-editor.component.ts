@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArticleService } from '../../../../core/services/article.service';
@@ -8,7 +7,7 @@ import { Article, AccessType } from '../../../../core/models/models';
 @Component({
   selector: 'app-article-editor',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './article-editor.component.html',
   styleUrls: ['./article-editor.component.scss']
 })
@@ -57,4 +56,3 @@ export class ArticleEditorComponent implements OnInit {
     }
   }
 }
-

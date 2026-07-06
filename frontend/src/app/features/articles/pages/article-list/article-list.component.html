@@ -1,19 +1,24 @@
 <section class="article-list">
   <h1>Extremsport Magazine</h1>
   <div class="articles-grid">
-    <article *ngFor="let article of articles" class="article-card">
-      <img *ngIf="article.coverImageUrl" [src]="article.coverImageUrl" [alt]="article.title" (error)="onImageError($event)" />
-      <div class="article-card-content">
-        <span class="category">{{ article.category }}</span>
-        <h2><a [routerLink]="['/article', article.id]">{{ article.title }}</a></h2>
-        <p>{{ article.summary }}</p>
-        <div class="meta">
-          <span>{{ article.authorName }}</span>
-          <time>{{ article.publishedAt | date:'dd.MM.yyyy' }}</time>
+    @for (article of articles; track article.id) {
+      <article class="article-card">
+        @if (article.coverImageUrl) {
+          <img [src]="article.coverImageUrl" [alt]="article.title" (error)="onImageError($event)" />
+        }
+        <div class="article-card-content">
+          <span class="category">{{ article.category }}</span>
+          <h2><a [routerLink]="['/article', article.id]">{{ article.title }}</a></h2>
+          <p>{{ article.summary }}</p>
+          <div class="meta">
+            <span>{{ article.authorName }}</span>
+            <time>{{ article.publishedAt | date:'dd.MM.yyyy' }}</time>
+          </div>
         </div>
-      </div>
-    </article>
+      </article>
+    }
   </div>
-  <button (click)="loadMore()" *ngIf="hasMore && articles.length > 0">Mehr laden</button>
+  @if (hasMore && articles.length > 0) {
+    <button (click)="loadMore()">Mehr laden</button>
+  }
 </section>
-

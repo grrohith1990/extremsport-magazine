@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ArticleService } from '../../../../core/services/article.service';
 import { Article } from '../../../../core/models/models';
@@ -7,7 +7,7 @@ import { Article } from '../../../../core/models/models';
 @Component({
   selector: 'app-author-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [DatePipe, RouterModule],
   templateUrl: './author-dashboard.component.html',
   styleUrls: ['./author-dashboard.component.scss']
 })
@@ -24,4 +24,3 @@ export class AuthorDashboardComponent implements OnInit {
     });
   }
 }
-

@@ -42,8 +42,9 @@
     </div>
     <div class="actions">
       <button type="submit">{{ isEdit ? 'Speichern' : 'Erstellen' }}</button>
-      <button type="button" *ngIf="isEdit" (click)="publish()">Veröffentlichen</button>
+      @if (isEdit) {
+        <button type="button" (click)="publish()">Veröffentlichen</button>
+      }
     </div>
   </form>
 </section>
-

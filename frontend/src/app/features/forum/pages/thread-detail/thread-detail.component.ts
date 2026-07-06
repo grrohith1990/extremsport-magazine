@@ -1,20 +1,12 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-thread-detail',
   standalone: true,
-  imports: [CommonModule],
-  template: `
-    <section class="thread-detail">
-      <h1>Thread Detail</h1>
-      <p>Thread ID: {{ threadId }}</p>
-      <div class="posts">
-        <p>Posts werden hier angezeigt...</p>
-      </div>
-    </section>
-  `
+  imports: [],
+  templateUrl: './thread-detail.component.html',
+  styleUrls: ['./thread-detail.component.scss']
 })
 export class ThreadDetailComponent {
   threadId: string | null = null;
@@ -23,4 +15,3 @@ export class ThreadDetailComponent {
     this.threadId = this.route.snapshot.paramMap.get('id');
   }
 }
-

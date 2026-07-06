@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ArticleService } from '@core/services/article.service';
@@ -8,7 +8,7 @@ import { Article } from '@core/models/models';
 @Component({
   selector: 'app-article-search',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [DatePipe, FormsModule, RouterModule],
   templateUrl: './article-search.component.html',
   styleUrls: ['./article-search.component.scss']
 })
@@ -67,5 +67,3 @@ export class ArticleSearchComponent implements OnInit {
     });
   }
 }
-
-

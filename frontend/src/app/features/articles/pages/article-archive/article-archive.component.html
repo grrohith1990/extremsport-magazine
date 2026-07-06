@@ -1,11 +1,12 @@
 <section class="archive">
   <h1>Archiv</h1>
   <div class="archive-list">
-    <article *ngFor="let article of articles" class="archive-item">
-      <time>{{ article.publishedAt | date:'dd.MM.yyyy' }}</time>
-      <h3><a [routerLink]="['/article', article.id]">{{ article.title }}</a></h3>
-      <span class="category">{{ article.category }}</span>
-    </article>
+    @for (article of articles; track article.id) {
+      <article class="archive-item">
+        <time>{{ article.publishedAt | date:'dd.MM.yyyy' }}</time>
+        <h3><a [routerLink]="['/article', article.id]">{{ article.title }}</a></h3>
+        <span class="category">{{ article.category }}</span>
+      </article>
+    }
   </div>
 </section>
-

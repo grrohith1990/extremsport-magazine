@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ArticleService } from '@core/services/article.service';
 import { Article } from '@core/models/models';
@@ -7,7 +7,7 @@ import { Article } from '@core/models/models';
 @Component({
   selector: 'app-article-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [DatePipe, RouterModule],
   templateUrl: './article-list.component.html',
   styleUrls: ['./article-list.component.scss']
 })
@@ -39,6 +39,3 @@ export class ArticleListComponent implements OnInit {
     (event.target as HTMLImageElement).src = 'https://placehold.co/600x400/1a1a2e/e65100?text=Extremsport';
   }
 }
-
-
-

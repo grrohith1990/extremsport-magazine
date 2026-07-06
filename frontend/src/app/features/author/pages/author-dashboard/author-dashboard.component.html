@@ -13,14 +13,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let article of myArticles">
-        <td>{{ article.title }}</td>
-        <td><span class="status" [class]="article.status.toLowerCase()">{{ article.status }}</span></td>
-        <td>{{ article.accessType }}</td>
-        <td>{{ article.createdAt | date:'dd.MM.yyyy' }}</td>
-        <td><a [routerLink]="['edit', article.id]">Bearbeiten</a></td>
-      </tr>
+      @for (article of myArticles; track article.id) {
+        <tr>
+          <td>{{ article.title }}</td>
+          <td><span class="status" [class]="article.status.toLowerCase()">{{ article.status }}</span></td>
+          <td>{{ article.accessType }}</td>
+          <td>{{ article.createdAt | date:'dd.MM.yyyy' }}</td>
+          <td><a [routerLink]="['edit', article.id]">Bearbeiten</a></td>
+        </tr>
+      }
     </tbody>
   </table>
 </section>
-
