@@ -20,27 +20,32 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
-    const isLoggedIn = await this.keycloakService.isLoggedIn();
+    try {
+      const isLoggedIn = await this.keycloakService.isLoggedIn();
 
-    if (!isLoggedIn) {
-      await this.keycloakService.login({
-        redirectUri: window.location.origin + route.url.toString()
-      });
-      return false;
-    }
-
-    // Check required roles
-    const requiredRoles = route.data['roles'] as string[];
-    if (requiredRoles && requiredRoles.length > 0) {
-      const userRoles = await this.keycloakService.getUserRoles();
-      const hasRole = requiredRoles.some(role => userRoles.includes(role));
-      if (!hasRole) {
-        this.router.navigate(['/unauthorized']);
+      if (!isLoggedIn) {
+        await this.keycloakService.login({
+          redirectUri: window.location.origin + route.url.toString()
+        });
         return false;
       }
-    }
 
-    return true;
+      // Check required roles
+      const requiredRoles = route.data['roles'] as string[];
+      if (requiredRoles && requiredRoles.length > 0) {
+        const userRoles = await this.keycloakService.getUserRoles();
+        const hasRole = requiredRoles.some(role => userRoles.includes(role));
+        if (!hasRole) {
+          this.router.navigate(['/unauthorized']);
+          return false;
+        }
+      }
+
+      return true;
+    } catch (error) {
+      console.warn('Auth service unavailable, redirecting to unauthorized page.');
+      this.router.navigate(['/unauthorized']);
+      return false;
+    }
   }
 }
-
