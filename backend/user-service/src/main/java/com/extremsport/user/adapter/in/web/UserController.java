@@ -1,5 +1,8 @@
 package com.extremsport.user.adapter.in.web;
 
+import com.extremsport.user.adapter.in.web.dto.RegisterUserRequest;
+import com.extremsport.user.adapter.in.web.dto.UpdateProfileRequest;
+import com.extremsport.user.adapter.in.web.dto.UserResponse;
 import com.extremsport.user.domain.model.User;
 import com.extremsport.user.domain.port.in.UserUseCase;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,7 +18,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -33,15 +35,15 @@ public class UserController {
             @ApiResponse(responseCode = "201", description = "User registered successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request")
     })
-    public User registerUser(@Valid @RequestBody RegisterUserRequest request) {
-        return userUseCase.registerUser(new UserUseCase.RegisterUserCommand(
+    public UserResponse registerUser(@Valid @RequestBody RegisterUserRequest request) {
+        return UserResponse.from(userUseCase.registerUser(new UserUseCase.RegisterUserCommand(
                 request.username(),
                 request.email(),
                 request.firstName(),
                 request.lastName(),
                 request.displayName(),
                 request.roles()
-        ));
+        )));
     }
 
     @GetMapping("/{id}")
@@ -50,9 +52,9 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "User found"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public ResponseEntity<User> getUser(@Parameter(description = "User UUID") @PathVariable UUID id) {
+    public ResponseEntity<UserResponse> getUser(@Parameter(description = "User UUID") @PathVariable UUID id) {
         return userUseCase.getUserById(id)
-                .map(ResponseEntity::ok)
+                .map(user -> ResponseEntity.ok(UserResponse.from(user)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
@@ -62,9 +64,9 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "User found"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public ResponseEntity<User> getUserByUsername(@Parameter(description = "Username") @PathVariable String username) {
+    public ResponseEntity<UserResponse> getUserByUsername(@Parameter(description = "Username") @PathVariable String username) {
         return userUseCase.getUserByUsername(username)
-                .map(ResponseEntity::ok)
+                .map(user -> ResponseEntity.ok(UserResponse.from(user)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
@@ -75,20 +77,20 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Users retrieved"),
             @ApiResponse(responseCode = "403", description = "Insufficient permissions")
     })
-    public List<User> getAllUsers(
+    public List<UserResponse> getAllUsers(
             @Parameter(description = "Page number") @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Page size") @RequestParam(defaultValue = "20") int size) {
-        return userUseCase.getAllUsers(page, size);
+        return UserResponse.from(userUseCase.getAllUsers(page, size));
     }
 
     @GetMapping("/role/{role}")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Get users by role", description = "Retrieve users filtered by role (requires ADMIN)")
-    public List<User> getUsersByRole(
+    public List<UserResponse> getUsersByRole(
             @Parameter(description = "User role") @PathVariable User.UserRole role,
             @Parameter(description = "Page number") @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Page size") @RequestParam(defaultValue = "20") int size) {
-        return userUseCase.getUsersByRole(role, page, size);
+        return UserResponse.from(userUseCase.getUsersByRole(role, page, size));
     }
 
     @PutMapping("/{id}/profile")
@@ -99,14 +101,14 @@ public class UserController {
             @ApiResponse(responseCode = "403", description = "Insufficient permissions"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public User updateProfile(@Parameter(description = "User UUID") @PathVariable UUID id, @Valid @RequestBody UpdateProfileRequest request) {
-        return userUseCase.updateProfile(id, new UserUseCase.UpdateProfileCommand(
+    public UserResponse updateProfile(@Parameter(description = "User UUID") @PathVariable UUID id, @Valid @RequestBody UpdateProfileRequest request) {
+        return UserResponse.from(userUseCase.updateProfile(id, new UserUseCase.UpdateProfileCommand(
                 request.firstName(),
                 request.lastName(),
                 request.displayName(),
                 request.avatarUrl(),
                 request.bio()
-        ));
+        )));
     }
 
     @PostMapping("/{id}/roles/{role}")
@@ -140,23 +142,4 @@ public class UserController {
         userUseCase.activateUser(id);
         return ResponseEntity.ok().build();
     }
-
-    // === Request DTOs ===
-
-    record RegisterUserRequest(
-            String username,
-            String email,
-            String firstName,
-            String lastName,
-            String displayName,
-            Set<User.UserRole> roles
-    ) {}
-
-    record UpdateProfileRequest(
-            String firstName,
-            String lastName,
-            String displayName,
-            String avatarUrl,
-            String bio
-    ) {}
 }

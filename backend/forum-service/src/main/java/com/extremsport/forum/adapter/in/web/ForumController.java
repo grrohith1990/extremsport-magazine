@@ -1,6 +1,6 @@
 package com.extremsport.forum.adapter.in.web;
 
-import com.extremsport.forum.domain.model.ForumPost;
+import com.extremsport.forum.adapter.in.web.dto.*;
 import com.extremsport.forum.domain.model.ForumThread;
 import com.extremsport.forum.domain.port.in.ForumUseCase;
 import jakarta.validation.Valid;
@@ -25,44 +25,44 @@ public class ForumController {
     @PostMapping("/threads")
     @PreAuthorize("isAuthenticated()")
     @ResponseStatus(HttpStatus.CREATED)
-    public ForumThread createThread(@Valid @RequestBody CreateThreadRequest request) {
-        return forumUseCase.createThread(new ForumUseCase.CreateThreadCommand(
+    public ThreadResponse createThread(@Valid @RequestBody CreateThreadRequest request) {
+        return ThreadResponse.from(forumUseCase.createThread(new ForumUseCase.CreateThreadCommand(
                 request.title(),
                 request.description(),
                 request.authorId(),
                 request.authorName(),
                 request.category()
-        ));
+        )));
     }
 
     @GetMapping("/threads/{id}")
-    public ResponseEntity<ForumThread> getThread(@PathVariable UUID id) {
+    public ResponseEntity<ThreadResponse> getThread(@PathVariable UUID id) {
         return forumUseCase.getThreadById(id)
-                .map(ResponseEntity::ok)
+                .map(thread -> ResponseEntity.ok(ThreadResponse.from(thread)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/threads")
-    public List<ForumThread> getRecentThreads(
+    public List<ThreadResponse> getRecentThreads(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
-        return forumUseCase.getRecentThreads(page, size);
+        return ThreadResponse.from(forumUseCase.getRecentThreads(page, size));
     }
 
     @GetMapping("/threads/category/{category}")
-    public List<ForumThread> getThreadsByCategory(
+    public List<ThreadResponse> getThreadsByCategory(
             @PathVariable ForumThread.ThreadCategory category,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
-        return forumUseCase.getThreadsByCategory(category, page, size);
+        return ThreadResponse.from(forumUseCase.getThreadsByCategory(category, page, size));
     }
 
     @GetMapping("/threads/search")
-    public List<ForumThread> searchThreads(
+    public List<ThreadResponse> searchThreads(
             @RequestParam String q,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
-        return forumUseCase.searchThreads(q, page, size);
+        return ThreadResponse.from(forumUseCase.searchThreads(q, page, size));
     }
 
     // === Post Endpoints ===
@@ -70,28 +70,28 @@ public class ForumController {
     @PostMapping("/threads/{threadId}/posts")
     @PreAuthorize("isAuthenticated()")
     @ResponseStatus(HttpStatus.CREATED)
-    public ForumPost createPost(@PathVariable UUID threadId, @Valid @RequestBody CreatePostRequest request) {
-        return forumUseCase.createPost(new ForumUseCase.CreatePostCommand(
+    public PostResponse createPost(@PathVariable UUID threadId, @Valid @RequestBody CreatePostRequest request) {
+        return PostResponse.from(forumUseCase.createPost(new ForumUseCase.CreatePostCommand(
                 threadId,
                 request.authorId(),
                 request.authorName(),
                 request.content(),
                 request.parentPostId()
-        ));
+        )));
     }
 
     @GetMapping("/threads/{threadId}/posts")
-    public List<ForumPost> getPostsByThread(
+    public List<PostResponse> getPostsByThread(
             @PathVariable UUID threadId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "50") int size) {
-        return forumUseCase.getPostsByThread(threadId, page, size);
+        return PostResponse.from(forumUseCase.getPostsByThread(threadId, page, size));
     }
 
     @PutMapping("/posts/{postId}")
     @PreAuthorize("isAuthenticated()")
-    public ForumPost editPost(@PathVariable UUID postId, @RequestBody EditPostRequest request) {
-        return forumUseCase.editPost(postId, request.content(), request.editorId());
+    public PostResponse editPost(@PathVariable UUID postId, @Valid @RequestBody EditPostRequest request) {
+        return PostResponse.from(forumUseCase.editPost(postId, request.content(), request.editorId()));
     }
 
     // === Moderation Endpoints ===
@@ -140,7 +140,7 @@ public class ForumController {
 
     @PostMapping("/posts/{id}/flag")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Void> flagPost(@PathVariable UUID id, @RequestBody FlagPostRequest request) {
+    public ResponseEntity<Void> flagPost(@PathVariable UUID id, @Valid @RequestBody FlagPostRequest request) {
         forumUseCase.flagPost(id, request.reporterId(), request.reason());
         return ResponseEntity.ok().build();
     }
@@ -154,31 +154,9 @@ public class ForumController {
 
     @GetMapping("/moderation/flagged")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-    public List<ForumPost> getFlaggedPosts(
+    public List<PostResponse> getFlaggedPosts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
-        return forumUseCase.getFlaggedPosts(page, size);
+        return PostResponse.from(forumUseCase.getFlaggedPosts(page, size));
     }
-
-    // === Request DTOs ===
-
-    record CreateThreadRequest(
-            String title,
-            String description,
-            UUID authorId,
-            String authorName,
-            ForumThread.ThreadCategory category
-    ) {}
-
-    record CreatePostRequest(
-            UUID authorId,
-            String authorName,
-            String content,
-            UUID parentPostId
-    ) {}
-
-    record EditPostRequest(String content, UUID editorId) {}
-
-    record FlagPostRequest(UUID reporterId, String reason) {}
 }
-

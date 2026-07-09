@@ -1,7 +1,6 @@
 package com.extremsport.subscription.adapter.in.web;
 
-import com.extremsport.subscription.domain.model.SinglePurchase;
-import com.extremsport.subscription.domain.model.Subscription;
+import com.extremsport.subscription.adapter.in.web.dto.*;
 import com.extremsport.subscription.domain.port.in.SubscriptionUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,34 +24,34 @@ public class SubscriptionController {
     @PostMapping
     @PreAuthorize("isAuthenticated()")
     @ResponseStatus(HttpStatus.CREATED)
-    public Subscription createSubscription(@Valid @RequestBody CreateSubscriptionRequest request) {
-        return subscriptionUseCase.createSubscription(new SubscriptionUseCase.CreateSubscriptionCommand(
+    public SubscriptionResponse createSubscription(@Valid @RequestBody CreateSubscriptionRequest request) {
+        return SubscriptionResponse.from(subscriptionUseCase.createSubscription(new SubscriptionUseCase.CreateSubscriptionCommand(
                 request.userId(),
                 request.plan(),
                 request.paymentMethodId(),
                 request.autoRenew()
-        ));
+        )));
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Subscription> getSubscription(@PathVariable UUID id) {
+    public ResponseEntity<SubscriptionResponse> getSubscription(@PathVariable UUID id) {
         return subscriptionUseCase.getSubscriptionById(id)
-                .map(ResponseEntity::ok)
+                .map(sub -> ResponseEntity.ok(SubscriptionResponse.from(sub)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/user/{userId}")
     @PreAuthorize("isAuthenticated()")
-    public List<Subscription> getSubscriptionsByUser(@PathVariable UUID userId) {
-        return subscriptionUseCase.getSubscriptionsByUserId(userId);
+    public List<SubscriptionResponse> getSubscriptionsByUser(@PathVariable UUID userId) {
+        return SubscriptionResponse.from(subscriptionUseCase.getSubscriptionsByUserId(userId));
     }
 
     @GetMapping("/user/{userId}/active")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Subscription> getActiveSubscription(@PathVariable UUID userId) {
+    public ResponseEntity<SubscriptionResponse> getActiveSubscription(@PathVariable UUID userId) {
         return subscriptionUseCase.getActiveSubscriptionByUserId(userId)
-                .map(ResponseEntity::ok)
+                .map(sub -> ResponseEntity.ok(SubscriptionResponse.from(sub)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
@@ -77,7 +76,7 @@ public class SubscriptionController {
 
     @PutMapping("/{id}/plan")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Void> changePlan(@PathVariable UUID id, @RequestBody ChangePlanRequest request) {
+    public ResponseEntity<Void> changePlan(@PathVariable UUID id, @Valid @RequestBody ChangePlanRequest request) {
         subscriptionUseCase.changePlan(id, request.newPlan());
         return ResponseEntity.ok().build();
     }
@@ -87,42 +86,23 @@ public class SubscriptionController {
     @PostMapping("/purchases")
     @PreAuthorize("isAuthenticated()")
     @ResponseStatus(HttpStatus.CREATED)
-    public SinglePurchase purchaseArticle(@Valid @RequestBody PurchaseArticleRequest request) {
-        return subscriptionUseCase.purchaseArticle(new SubscriptionUseCase.PurchaseArticleCommand(
+    public PurchaseResponse purchaseArticle(@Valid @RequestBody PurchaseArticleRequest request) {
+        return PurchaseResponse.from(subscriptionUseCase.purchaseArticle(new SubscriptionUseCase.PurchaseArticleCommand(
                 request.userId(),
                 request.articleId(),
                 request.articleTitle(),
                 request.paymentMethodId()
-        ));
+        )));
     }
 
     @GetMapping("/purchases/user/{userId}")
     @PreAuthorize("isAuthenticated()")
-    public List<SinglePurchase> getPurchasesByUser(@PathVariable UUID userId) {
-        return subscriptionUseCase.getPurchasesByUserId(userId);
+    public List<PurchaseResponse> getPurchasesByUser(@PathVariable UUID userId) {
+        return PurchaseResponse.from(subscriptionUseCase.getPurchasesByUserId(userId));
     }
 
     @GetMapping("/access/{userId}/{articleId}")
     public ResponseEntity<Boolean> hasAccessToArticle(@PathVariable UUID userId, @PathVariable UUID articleId) {
         return ResponseEntity.ok(subscriptionUseCase.hasAccessToArticle(userId, articleId));
     }
-
-    // === Request DTOs ===
-
-    record CreateSubscriptionRequest(
-            UUID userId,
-            Subscription.SubscriptionPlan plan,
-            String paymentMethodId,
-            boolean autoRenew
-    ) {}
-
-    record ChangePlanRequest(Subscription.SubscriptionPlan newPlan) {}
-
-    record PurchaseArticleRequest(
-            UUID userId,
-            UUID articleId,
-            String articleTitle,
-            String paymentMethodId
-    ) {}
 }
-

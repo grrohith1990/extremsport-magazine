@@ -1,6 +1,8 @@
 package com.extremsport.user.adapter.in.web;
 
-import com.extremsport.user.domain.model.AuthorProfile;
+import com.extremsport.user.adapter.in.web.dto.AuthorProfileResponse;
+import com.extremsport.user.adapter.in.web.dto.CreateAuthorRequest;
+import com.extremsport.user.adapter.in.web.dto.UpdateAuthorRequest;
 import com.extremsport.user.domain.port.in.AuthorUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -31,18 +33,17 @@ public class AuthorController {
     @Operation(summary = "Create author profile", description = "Create a new author profile (requires ADMIN or EDITOR role)")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Author profile created"),
-            @ApiResponse(responseCode = "400", description = "Invalid request"),
-            @ApiResponse(responseCode = "403", description = "Insufficient permissions")
+            @ApiResponse(responseCode = "400", description = "Invalid request")
     })
-    public AuthorProfile createAuthorProfile(@Valid @RequestBody CreateAuthorRequest request) {
-        return authorUseCase.createAuthorProfile(new AuthorUseCase.CreateAuthorProfileCommand(
+    public AuthorProfileResponse createAuthorProfile(@Valid @RequestBody CreateAuthorRequest request) {
+        return AuthorProfileResponse.from(authorUseCase.createAuthorProfile(new AuthorUseCase.CreateAuthorProfileCommand(
                 request.userId(),
                 request.penName(),
                 request.biography(),
                 request.specialization(),
                 request.expertise(),
                 request.profileImageUrl()
-        ));
+        )));
     }
 
     @GetMapping("/{id}")
@@ -51,9 +52,9 @@ public class AuthorController {
             @ApiResponse(responseCode = "200", description = "Author found"),
             @ApiResponse(responseCode = "404", description = "Author not found")
     })
-    public ResponseEntity<AuthorProfile> getAuthorProfile(@Parameter(description = "Author UUID") @PathVariable UUID id) {
+    public ResponseEntity<AuthorProfileResponse> getAuthorProfile(@Parameter(description = "Author UUID") @PathVariable UUID id) {
         return authorUseCase.getAuthorProfileById(id)
-                .map(ResponseEntity::ok)
+                .map(author -> ResponseEntity.ok(AuthorProfileResponse.from(author)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
@@ -63,24 +64,24 @@ public class AuthorController {
             @ApiResponse(responseCode = "200", description = "Author found"),
             @ApiResponse(responseCode = "404", description = "Author not found")
     })
-    public ResponseEntity<AuthorProfile> getAuthorByUserId(@Parameter(description = "User UUID") @PathVariable UUID userId) {
+    public ResponseEntity<AuthorProfileResponse> getAuthorByUserId(@Parameter(description = "User UUID") @PathVariable UUID userId) {
         return authorUseCase.getAuthorProfileByUserId(userId)
-                .map(ResponseEntity::ok)
+                .map(author -> ResponseEntity.ok(AuthorProfileResponse.from(author)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
     @Operation(summary = "Get all authors", description = "Retrieve paginated list of all authors")
-    public List<AuthorProfile> getAllAuthors(
+    public List<AuthorProfileResponse> getAllAuthors(
             @Parameter(description = "Page number") @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Page size") @RequestParam(defaultValue = "20") int size) {
-        return authorUseCase.getAllAuthors(page, size);
+        return AuthorProfileResponse.from(authorUseCase.getAllAuthors(page, size));
     }
 
     @GetMapping("/verified")
     @Operation(summary = "Get verified authors", description = "Retrieve all verified author profiles")
-    public List<AuthorProfile> getVerifiedAuthors() {
-        return authorUseCase.getVerifiedAuthors();
+    public List<AuthorProfileResponse> getVerifiedAuthors() {
+        return AuthorProfileResponse.from(authorUseCase.getVerifiedAuthors());
     }
 
     @PutMapping("/{id}")
@@ -88,18 +89,17 @@ public class AuthorController {
     @Operation(summary = "Update author profile", description = "Update an author profile (requires AUTHOR or ADMIN role)")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Author profile updated"),
-            @ApiResponse(responseCode = "403", description = "Insufficient permissions"),
             @ApiResponse(responseCode = "404", description = "Author not found")
     })
-    public AuthorProfile updateAuthorProfile(@Parameter(description = "Author UUID") @PathVariable UUID id, @Valid @RequestBody UpdateAuthorRequest request) {
-        return authorUseCase.updateAuthorProfile(id, new AuthorUseCase.UpdateAuthorProfileCommand(
+    public AuthorProfileResponse updateAuthorProfile(@Parameter(description = "Author UUID") @PathVariable UUID id, @Valid @RequestBody UpdateAuthorRequest request) {
+        return AuthorProfileResponse.from(authorUseCase.updateAuthorProfile(id, new AuthorUseCase.UpdateAuthorProfileCommand(
                 request.penName(),
                 request.biography(),
                 request.specialization(),
                 request.expertise(),
                 request.profileImageUrl(),
                 request.socialMediaLinks()
-        ));
+        )));
     }
 
     @PostMapping("/{id}/verify")
@@ -113,24 +113,4 @@ public class AuthorController {
         authorUseCase.verifyAuthor(id);
         return ResponseEntity.ok().build();
     }
-
-    // === Request DTOs ===
-
-    record CreateAuthorRequest(
-            UUID userId,
-            String penName,
-            String biography,
-            String specialization,
-            List<String> expertise,
-            String profileImageUrl
-    ) {}
-
-    record UpdateAuthorRequest(
-            String penName,
-            String biography,
-            String specialization,
-            List<String> expertise,
-            String profileImageUrl,
-            String socialMediaLinks
-    ) {}
 }
