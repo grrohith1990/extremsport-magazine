@@ -1,15 +1,29 @@
 <section class="new-thread">
   <h1>Neues Thema erstellen</h1>
+
+  @if (errorMessage) {
+    <div class="error-message">{{ errorMessage }}</div>
+  }
+
   <form (ngSubmit)="createThread()">
     <div class="form-group">
       <label for="title">Titel</label>
-      <input id="title" type="text" [(ngModel)]="title" name="title" required />
+      <input id="title" type="text" [(ngModel)]="title" name="title" required maxlength="200" />
     </div>
     <div class="form-group">
-      <label for="content">Inhalt</label>
-      <textarea id="content" [(ngModel)]="content" name="content" rows="10" required></textarea>
+      <label for="category">Kategorie</label>
+      <select id="category" [(ngModel)]="category" name="category" required>
+        @for (cat of categories; track cat) {
+          <option [value]="cat">{{ cat }}</option>
+        }
+      </select>
     </div>
-    <button type="submit">Thema erstellen</button>
+    <div class="form-group">
+      <label for="description">Beschreibung</label>
+      <textarea id="description" [(ngModel)]="description" name="description" rows="10" required maxlength="2000"></textarea>
+    </div>
+    <button type="submit" [disabled]="isSubmitting">
+      {{ isSubmitting ? 'Wird erstellt...' : 'Thema erstellen' }}
+    </button>
   </form>
 </section>
-

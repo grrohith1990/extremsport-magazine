@@ -4,7 +4,160 @@
   padding: 2rem;
 }
 
-.posts {
-  margin-top: 2rem;
+.back-link {
+  color: #e65100;
+  text-decoration: none;
+  font-size: 0.9rem;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
+.error-message {
+  background: #fdecea;
+  color: #b71c1c;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+}
+
+.loading {
+  margin-top: 2rem;
+  color: #666;
+}
+
+.thread-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+
+  h1 {
+    margin: 0;
+  }
+}
+
+.category-badge {
+  background: #f5f5f5;
+  color: #666;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.thread-meta {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: 0.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.posts-section {
+  margin-top: 1.5rem;
+
+  h2 {
+    margin-bottom: 1rem;
+  }
+}
+
+.no-posts {
+  color: #666;
+  font-style: italic;
+}
+
+.post-card {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.post-date {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.post-content {
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.post-moderated {
+  margin-top: 0.5rem;
+  color: #b71c1c;
+  font-size: 0.85rem;
+}
+
+.reply-section {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+
+  textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    resize: vertical;
+
+    &:focus {
+      border-color: #e65100;
+      outline: none;
+    }
+  }
+
+  button {
+    margin-top: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    background: #e65100;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+
+    &:hover:not(:disabled) {
+      background: darken(#e65100, 10%);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.login-prompt {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f5f5f5;
+  border-radius: 8px;
+  text-align: center;
+
+  button {
+    margin-top: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #e65100;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+      background: darken(#e65100, 10%);
+    }
+  }
+}

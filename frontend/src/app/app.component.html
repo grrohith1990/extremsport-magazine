@@ -1,0 +1,32 @@
+<header class="main-header">
+  <nav>
+    <a routerLink="/" class="logo">🏔️ Extremsport Magazine</a>
+    <div class="nav-links">
+      <a routerLink="/">Home</a>
+      <a routerLink="/premium">Premium</a>
+      <a routerLink="/archive">Archiv</a>
+      <a routerLink="/forum">Forum</a>
+      @if (isLoggedIn) {
+        <div class="user-dropdown">
+          <button class="dropdown-toggle" (click)="dropdownOpen = !dropdownOpen">
+            {{ displayName }} ▾
+          </button>
+          @if (dropdownOpen) {
+            <div class="dropdown-menu">
+              <button (click)="logout()">Abmelden</button>
+            </div>
+          }
+        </div>
+      } @else {
+        <button class="btn-login" (click)="login()">Anmelden</button>
+      }
+    </div>
+  </nav>
+</header>
+<main>
+  <router-outlet></router-outlet>
+</main>
+<footer class="main-footer">
+  <p>&copy; 2026 Extremsport Magazine. Alle Rechte vorbehalten.</p>
+</footer>
+

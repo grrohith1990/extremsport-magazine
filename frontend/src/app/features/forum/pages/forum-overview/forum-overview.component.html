@@ -1,9 +1,39 @@
 <section class="forum">
   <h1>Community Forum</h1>
   <p>Diskutiere mit anderen Extremsport-Enthusiasten</p>
-  <a routerLink="new-thread" class="btn-new">Neues Thema erstellen</a>
-  <div class="thread-list">
-    <p>Forum-Threads werden hier angezeigt...</p>
-  </div>
-</section>
+  <a routerLink="new-thread" class="btn-new">+ Neues Thema erstellen</a>
 
+  @if (errorMessage) {
+    <div class="error-message">{{ errorMessage }}</div>
+  }
+
+  @if (isLoading) {
+    <div class="loading">Lade Threads...</div>
+  }
+
+  @if (!isLoading && !errorMessage) {
+    <div class="thread-list">
+      @if (threads.length === 0) {
+        <div class="no-threads">
+          <p>Noch keine Themen vorhanden. Erstelle das erste!</p>
+        </div>
+      }
+
+      @for (thread of threads; track thread.id) {
+        <div class="thread-card">
+          <a [routerLink]="['thread', thread.id]" class="thread-link">
+            <div class="thread-header">
+              <h3>{{ thread.title }}</h3>
+              <span class="category-badge">{{ thread.category }}</span>
+            </div>
+            <div class="thread-meta">
+              <span class="author">von {{ thread.authorName }}</span>
+              <span class="date">{{ thread.createdAt | date:'dd.MM.yyyy HH:mm' }}</span>
+              <span class="posts">{{ thread.postCount }} Beiträge</span>
+            </div>
+          </a>
+        </div>
+      }
+    </div>
+  }
+</section>

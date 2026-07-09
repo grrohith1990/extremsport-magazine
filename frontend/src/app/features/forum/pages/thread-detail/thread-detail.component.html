@@ -1,8 +1,73 @@
 <section class="thread-detail">
-  <h1>Thread Detail</h1>
-  <p>Thread ID: {{ threadId }}</p>
-  <div class="posts">
-    <p>Posts werden hier angezeigt...</p>
-  </div>
-</section>
+  <a routerLink="/forum" class="back-link">← Zurück zum Forum</a>
 
+  @if (isLoading) {
+    <div class="loading">Lade Thread...</div>
+  }
+
+  @if (errorMessage) {
+    <div class="error-message">{{ errorMessage }}</div>
+  }
+
+  @if (thread && !isLoading) {
+    <div class="thread-header">
+      <h1>{{ thread.title }}</h1>
+      <span class="category-badge">{{ thread.category }}</span>
+    </div>
+    <div class="thread-meta">
+      <span>von <strong>{{ thread.authorName }}</strong></span>
+      <span>{{ thread.createdAt | date:'dd.MM.yyyy HH:mm' }}</span>
+      <span>{{ thread.postCount }} Beiträge</span>
+    </div>
+
+    <!-- Posts -->
+    <div class="posts-section">
+      <h2>Beiträge</h2>
+
+      @if (posts.length === 0) {
+        <div class="no-posts">
+          <p>Noch keine Beiträge. Sei der Erste!</p>
+        </div>
+      }
+
+      @for (post of posts; track post.id) {
+        <div class="post-card">
+          <div class="post-header">
+            <strong>{{ post.authorName }}</strong>
+            <span class="post-date">{{ post.createdAt | date:'dd.MM.yyyy HH:mm' }}</span>
+          </div>
+          <div class="post-content">{{ post.content }}</div>
+          @if (post.moderated) {
+            <div class="post-moderated">
+              <em>Dieser Beitrag wurde moderiert.</em>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Reply form -->
+    @if (isLoggedIn) {
+      <div class="reply-section">
+        <h3>Antworten</h3>
+        <form (ngSubmit)="submitPost()">
+          <textarea
+            [(ngModel)]="newPostContent"
+            name="content"
+            rows="5"
+            placeholder="Schreibe eine Antwort..."
+            required
+          ></textarea>
+          <button type="submit" [disabled]="isSubmitting || !newPostContent.trim()">
+            {{ isSubmitting ? 'Wird gesendet...' : 'Antwort senden' }}
+          </button>
+        </form>
+      </div>
+    } @else {
+      <div class="login-prompt">
+        <p>Du musst angemeldet sein, um zu antworten.</p>
+        <button (click)="login()">Anmelden</button>
+      </div>
+    }
+  }
+</section>
